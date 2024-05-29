@@ -1,0 +1,29 @@
+import requests
+
+# List of websites to check
+websites = [
+    "https://example.com",
+ ]
+
+# List to store websites that don't return 200 status
+non_responding_websites = []
+
+# Check each website
+for website in websites:
+    try:
+        response = requests.get(website)
+        if response.status_code == 200:
+            print(f"{website} returned status code 200.")
+        else:
+            print(f"{website} returned status code {response.status_code}.")
+            non_responding_websites.append(website)
+    except requests.RequestException as e:
+        print(f"RequestException for {website}: {e}")
+        non_responding_websites.append(website)
+
+# Write the list of non-responding websites to a text file
+with open('non_responding_websites.txt', 'w') as txtfile:
+    for website in non_responding_websites:
+        txtfile.write(website + '\n')
+
+print("Check complete. Results saved to 'non_responding_websites.txt'.")
